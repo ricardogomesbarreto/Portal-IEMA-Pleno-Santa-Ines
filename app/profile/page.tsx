@@ -13,30 +13,39 @@ export default function ProfilePage() {
   useEffect(() => {
     const u = getCurrentUser();
     if (!u) {
-      router.push("/login");
+      router.replace("/login");
       return;
     }
     setName(u.name || "");
     setEmail(u.email || "");
     setRole(u.role || "");
-  }, []);
+  }, [router]);
 
   function handleSave(e: React.FormEvent) {
     e.preventDefault();
+
     const users = JSON.parse(localStorage.getItem("users") || "[]");
     const idx = users.findIndex((u: any) => u.email === email);
+
     if (idx > -1) {
       users[idx].name = name;
       localStorage.setItem("users", JSON.stringify(users));
     }
+
     const updated = { name, email, role };
     setCurrentUser(updated);
-    alert("Perfil atualizado.");
+
+    alert("Perfil atualizado com sucesso!");
+
+    // 🔴 Redireciona para Home após salvar
+    setTimeout(() => {
+      router.replace("/");
+    }, 0);
   }
 
   function handleLogout() {
     doLogout();
-    router.push("/");
+    router.replace("/");
   }
 
   return (
@@ -46,20 +55,44 @@ export default function ProfilePage() {
         <form onSubmit={handleSave} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Nome</label>
-            <input className="w-full border rounded px-3 py-2" value={name} onChange={(e) => setName(e.target.value)} required />
+            <input
+              className="w-full border rounded px-3 py-2"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Email (não editável)</label>
-            <input className="w-full border rounded px-3 py-2 bg-gray-100" value={email} disabled />
+            <input
+              className="w-full border rounded px-3 py-2 bg-gray-100"
+              value={email}
+              disabled
+            />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Tipo de Conta</label>
-            <input className="w-full border rounded px-3 py-2 bg-gray-100" value={role} disabled />
+            <input
+              className="w-full border rounded px-3 py-2 bg-gray-100"
+              value={role}
+              disabled
+            />
           </div>
 
           <div className="flex gap-3 justify-end">
-            <button type="button" onClick={handleLogout} className="px-4 py-2 bg-muted rounded">Sair</button>
-            <button type="submit" className="px-4 py-2 bg-secondary text-secondary-foreground rounded">Salvar</button>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="px-4 py-2 bg-muted rounded"
+            >
+              Sair
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-secondary text-secondary-foreground rounded"
+            >
+              Salvar
+            </button>
           </div>
         </form>
       </div>

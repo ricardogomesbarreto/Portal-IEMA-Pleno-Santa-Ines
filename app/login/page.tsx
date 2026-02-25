@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Head from "next/head";
 import { setLoggedIn } from "../../lib/admin-db";
 
 export default function LoginPage() {
@@ -51,11 +50,11 @@ export default function LoginPage() {
       return;
     }
     // role-specific length rules (compare trimmed values)
-    if (registerRole === "aluno" && pwd.length !== 12) {
+    if (registerRole === "Aluno" && pwd.length !== 12) {
       setRegisterError("A senha do aluno deve ter exatamente 12 dígitos.");
       return;
     }
-    if (registerRole === "gestor" && pwd.length !== 8) {
+    if (registerRole === "Gestor/Professor" && pwd.length !== 8) {
       setRegisterError("A senha do gestor deve ter exatamente 8 caracteres.");
       return;
     }
@@ -140,14 +139,6 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-sky-600">
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        />
-        <title>Login - IEMA</title>
-      </Head>
-
       <div className="relative w-full max-w-md p-6">
         {/* blurred background slideshow matching home hero */}
         <div className="fixed inset-0 -z-10 overflow-hidden">
