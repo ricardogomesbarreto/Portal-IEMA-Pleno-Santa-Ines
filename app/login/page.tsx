@@ -101,17 +101,11 @@ export default function LoginPage() {
     }
 
     alert("Login realizado com sucesso como " + loginRole + "!");
-    // redirect depending on role
     if (loginRole === "gestor") {
-      // mark admin as logged in and redirect to admin panel or next path
       setLoggedIn(true);
-      if (nextPath && nextPath.startsWith("/")) {
-        window.location.href = nextPath;
-      } else {
-        window.location.href = "/admin";
-      }
-    } else {
-      // if non-admin and there's a return path, use it
+      window.location.href = "/profile";
+    }
+  else {
       if (nextPath && nextPath.startsWith("/")) {
         window.location.href = nextPath;
       } else {
